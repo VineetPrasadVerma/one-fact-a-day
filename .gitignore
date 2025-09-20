@@ -1,0 +1,8 @@
+.env
+python/.env
+node_modules
+assets
+.venv
+.vscode
+output
+package-lock.json
