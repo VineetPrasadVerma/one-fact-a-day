@@ -1,31 +1,16 @@
-# from openai import OpenAI
-# import os
-# from dotenv import load_dotenv
-
-# load_dotenv()
-
-# # 1. OpenAI API client
-# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# def generate_script(fact):
-#     prompt = f"""
-#     Create a short engaging 30-second script for a YouTube short video.
-#     The script MUST start with the words: "Did you know?"
-
-#     Fact: {fact}
-#     """
-#     response = client.chat.completions.create(
-#         model="gpt-4o-mini",
-#         messages=[{"role": "user", "content": prompt}],
-#     )
-#     return response.choices[0].message.content.strip()
-
+import os
+from dotenv import load_dotenv
 from google import genai
 
-client = genai.Client()
+load_dotenv()
 
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="How does AI work?"
-)
-print(response.text)
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+def generate_script():
+  response = client.models.generate_content(
+      model="gemini-2.5-flash",
+      contents="Create a short, engaging script (15 seconds when spoken) for a YouTube Short video. The script MUST start with the exact words: 'Did you know?'Requirements: -Use a real, verifiable fact. -Make it surprising, and conversational (not academic).  - Add emotional or sensory words to make it engaging. -End with a punchy closing line that invites viewers to like, share, and subscribe. - Keep language simple and natural, as if speaking to a general audience. Return ONLY the script text, nothing else.",
+  )
+  print(response.text)
+  
+generate_script()
