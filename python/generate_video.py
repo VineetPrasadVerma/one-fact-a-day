@@ -13,9 +13,11 @@ def create_fact_video(
     bg_music = AudioFileClip(bg_music_path)
 
     # --- Durations ---
-    intro_duration = 2
+    intro_duration = 1
     outro_duration = 2
     per_image_duration = narration.duration / len(fact_image_paths)
+    per_image_duration = 5.5  # subtract intro outro time
+
 
     # --- Create clips ---
     intro = ImageClip(intro_image).with_duration(intro_duration).resized(height=720)
@@ -35,13 +37,14 @@ def create_fact_video(
         bg_music_loops = [bg_music] * loops
         bg_music_full = CompositeAudioClip(bg_music_loops).with_duration(video.duration)
     else:
-        bg_music_full = bg_music.subclipped(0, video.duration)
+        bg_music_full = bg_music.subclipped('0', video.duration)
+        bg_music_full = bg_music.with_volume_scaled(0.6)
 
     # --- Combine narration (starts after intro) + bg music ---
     final_audio = CompositeAudioClip([
         bg_music_full,
-        narration.with_start(intro_duration)
-    ]).with_duration(video.duration)
+        narration.with_start(0)
+    ]).with_duration(narration.duration)
 
     # --- Attach audio ---
     video = video.with_audio(final_audio)
@@ -49,19 +52,17 @@ def create_fact_video(
     # --- Export final video ---
     video.write_videofile(output_path, fps=24, audio_codec="aac")
 
-    print(f"✅ Video saved at {output_path}")
+    print(f"Video saved at {output_path}")
 
 
-# --- Example usage ---
-if __name__ == "__main__":
-    create_fact_video(
-        fact_audio_path="./python/assets/voice/2025-09-24.mp3",
-        fact_image_paths=[
-            "./python/assets/images/fact_image_1.png",
-            "./python/assets/images/fact_image_2.png",
-        ],
-        bg_music_path="./python/assets/background_music/bg_1.mp3",
-        intro_image="./python/assets/static_images/intro.png",
-        outro_image="./python/assets/static_images/outro.png",
-        output_path="./python/assets/video/fact_video.mp4",
-    )
+create_fact_video(
+    fact_audio_path="./python/assets/voice/2025-09-24.mp3",
+    fact_image_paths=[
+        "./python/assets/images/fact_image_1.png",
+        "./python/assets/images/fact_image_2.png",
+    ],
+    bg_music_path="./python/assets/background_music/bg_1.mp3",
+    intro_image="./python/assets/static_images/intro.png",
+    outro_image="./python/assets/static_images/outro.png",
+    output_path="./python/assets/video/fact_video.mp4",
+)
