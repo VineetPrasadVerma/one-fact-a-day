@@ -149,5 +149,6 @@ txt_to_img_prompts_arr = [
   "A breathtaking, vibrant nebula filled with an uncountable multitude of stars, sparkling like diamonds across the deep, rich indigo and violet expanse of the observable universe. Crisp, clear details with brilliant, eye-catching light. Ultra-high definition, cosmic grandeur, breathtaking, rich colors.",
   "A stunning, expansive aerial view of a pristine, golden beach stretching infinitely along the vivid blue ocean, representing all the grains of sand on Earth. The sand is depicted with rich, warm colors and intricate, crisp details, sparkling under a bright, eye-catching sunlight, emphasizing its vast, countless quantity. Ultra-realistic, vibrant, clear focus."
 ]
+
 for idx, prompt in enumerate(txt_to_img_prompts_arr):
   generate_image_from_prompt(prompt, idx)
