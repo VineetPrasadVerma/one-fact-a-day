@@ -15,7 +15,7 @@ def create_fact_video(
     # --- Durations ---
     intro_duration = 1
     outro_duration = 2
-    per_image_duration = narration.duration / len(fact_image_paths)
+    # per_image_duration = narration.duration / len(fact_image_paths)
     per_image_duration = 5.5  # subtract intro outro time
 
 
@@ -37,8 +37,9 @@ def create_fact_video(
         bg_music_loops = [bg_music] * loops
         bg_music_full = CompositeAudioClip(bg_music_loops).with_duration(video.duration)
     else:
-        bg_music_full = bg_music.subclipped('0', video.duration)
-        bg_music_full = bg_music.with_volume_scaled(0.6)
+        bg_music_full = bg_music.with_volume_scaled(0.7)
+        bg_music_full = bg_music.subclipped(5, narration.duration+5)
+        
 
     # --- Combine narration (starts after intro) + bg music ---
     final_audio = CompositeAudioClip([
